@@ -13,13 +13,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Order {
-
+public class Order{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String description;
+    private String name;
     private  int howMany;
     private Date dateOfMake;
 
@@ -27,8 +26,7 @@ public class Order {
     @JoinColumn(name = "owner_id",  nullable = false)
     private User sender;
 
-    @ManyToMany
-    private List<User> recipients;
+
 
 
 
