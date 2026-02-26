@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -15,11 +16,24 @@ import java.util.List;
 public class User {
 
     @Id
-    @GeneratedValue
-    private long id;
-
     private String nick;
 
-    @ManyToMany
-    private List<Order> sharedOrders;
+    private String password;
+
+    @Column(unique = true)
+    private String email;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name="Order_User")
+    private List<Order> sharedOrders = new ArrayList<>();
+
+
+    public void addOrder(Order order) {
+        sharedOrders.add(order);
+    }
+
+    public void removeOrder(Order order) {
+        sharedOrders.remove(order);
+    }
+
 }
