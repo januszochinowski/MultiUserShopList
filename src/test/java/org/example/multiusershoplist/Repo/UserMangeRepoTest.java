@@ -60,4 +60,9 @@ class UserMangeRepoTest {
     void getUserEmailByNick() {
         assertEquals(user.getEmail(),repo.findByNick(user.getNick()).get().getEmail());
     }
+
+    @Test
+    void findByNickStartingWith() {
+        assertEquals(user,repo.findByNickStartingWith(user.getNick().substring(0,1)).getFirst());
+    }
 }

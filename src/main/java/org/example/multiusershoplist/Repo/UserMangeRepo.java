@@ -15,6 +15,8 @@ public interface UserMangeRepo extends JpaRepository<User,String> {
 
     Optional<User> findByNick(String nick);
 
+    Optional<User> findByEmail(String email);
+
     void deleteByNick(String nick);
 
     @Modifying(clearAutomatically = true)
@@ -34,6 +36,7 @@ public interface UserMangeRepo extends JpaRepository<User,String> {
     @Query("SELECT  u.email FROM User u WHERE u.nick = :nick")
     String getUserEmailByNick(String email);
 
+    List<User> findByNickStartingWith(String nick);
 
 
 }

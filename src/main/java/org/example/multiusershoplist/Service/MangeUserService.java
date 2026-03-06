@@ -5,6 +5,7 @@ import org.example.multiusershoplist.Model.Order;
 import org.example.multiusershoplist.Model.User;
 import org.example.multiusershoplist.Repo.UserMangeRepo;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ import java.util.Optional;
 public class MangeUserService {
 
     private UserMangeRepo repo;
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
     MangeUserService(UserMangeRepo repo) {
         this.repo = repo;
@@ -25,7 +27,9 @@ public class MangeUserService {
      * @param user <- new user
      */
     public void createUser(User user){
+        user.setPassword(encoder.encode(user.getPassword()));
         repo.save(user);
+
     }
 
     /**
@@ -35,6 +39,14 @@ public class MangeUserService {
      */
     public Optional<User>  getUser(String nick){
         return repo.findByNick(nick);
+    }
+
+    public Optional<User>  getUserByEmail(String email){
+        return repo.findByEmail(email);
+    }
+
+    public List<User> getUsersWithNickStart(String nick){
+        return  repo.findByNickStartingWith(nick);
     }
 
     /**

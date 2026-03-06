@@ -18,9 +18,10 @@ public class User {
     @Id
     private String nick;
 
+    @Column(nullable = false)
     private String password;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
     @ManyToMany(fetch = FetchType.EAGER)

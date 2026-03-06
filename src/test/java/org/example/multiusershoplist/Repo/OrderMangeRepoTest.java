@@ -16,6 +16,9 @@ class OrderMangeRepoTest {
     @Autowired
     OrderMangeRepo repo;
 
+    @Autowired
+    UserMangeRepo userMangeRepo;
+
     private Order order;
 
     @BeforeEach
@@ -23,16 +26,21 @@ class OrderMangeRepoTest {
         order = new Order();
         order.setName("marchewka");
         order.setHowMany(1);
-        order.setId(repo.save(order).getId());
         User user = new User();
         user.setNick("Test");
+        user.setPassword("password");
+        user.setEmail("ajgdj");
+        userMangeRepo.save(user);
         order.setSender(user);
+        order.setId(repo.save(order).getId());
     }
 
     @AfterEach
     void tearDown() {
         repo.deleteAll();
+        userMangeRepo.deleteAll();
     }
+
 
     @Test
     void findById() {
