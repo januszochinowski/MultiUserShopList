@@ -25,7 +25,7 @@ public class User {
     private String email;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name="Order_User")
+    @JoinTable(name="order_user")
     private List<Order> userOrders = new ArrayList<>();
 
 

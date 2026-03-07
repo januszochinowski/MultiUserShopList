@@ -1,11 +1,13 @@
 package org.example.multiusershoplist.Service;
 
+import jakarta.persistence.EntityManager;
 import org.example.multiusershoplist.Model.Order;
 import org.example.multiusershoplist.Model.User;
 import org.example.multiusershoplist.Repo.OrderMangeRepo;
 import org.example.multiusershoplist.Repo.UserMangeRepo;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Calendar;
@@ -19,36 +21,38 @@ public class OrderService {
 
     private final OrderMangeRepo repo;
     private final UserService userService;
-    private final ShareOrderService shareOrderService;
 
 
 
-    public OrderService(OrderMangeRepo repo, UserService userService, ShareOrderService shareOrderService) {
+    public OrderService(OrderMangeRepo repo, UserService userService) {
         this.repo = repo;
         this.userService = userService;
-        this.shareOrderService = shareOrderService;
     }
 
     /**
      * Add new order
      * @param order <- new order
-     * @param senderNick <- nick of user who create it
+     * @param senderNick <- nick of user who creates it
      */
     public void addOrder(Order order, String senderNick){
         User sender = userService.getUser(senderNick).orElseThrow( () -> new UsernameNotFoundException("User not found"));
-        order.setSender(sender);
+        order.setSenderNick(senderNick);
         order.setDateOfMake(LocalDate.now());
         repo.save(order);
-        sender.addOrder(order);
+        userService.addOrder(sender, order);
+
+
     }
 
     /**
      * Remove order
-     * @param order <- order to remove
+     * @param orderId id order to remove
+     * @param senderNick nick User who want to delete Order
      */
     public void removeOrder(long orderId,String senderNick){
         User sender  = userService.getUser(senderNick).orElseThrow( () -> new UsernameNotFoundException("User not found"));
         Order order = sender.getUserOrders().stream().filter(o -> o.getId() == orderId).findFirst().orElseThrow( () -> new  IllegalArgumentException("You do not have an order with that id"));
+        order.getOwners().forEach(owner -> owner.removeOrder(order));
         repo.delete(order);
     }
 

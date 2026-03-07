@@ -4,9 +4,11 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,11 +17,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @DynamicUpdate
-@Table(name="usersOrder")
+@Table(name="Orders")
 @Entity
 public class Order{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
     @Column(nullable = false)
@@ -31,9 +33,11 @@ public class Order{
     @Column(nullable = false)
     private LocalDate dateOfMake;
 
-    @OneToOne
-    @JoinColumn(name = "owner_id",  nullable = false)
-    private User sender;
+    @Column(nullable = false)
+    private String senderNick;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, mappedBy ="userOrders")
+    private List<User> owners=new ArrayList<>();
 
 
 

@@ -84,7 +84,10 @@ public class UserService {
     }
 
 
-
+    public void addOrder(User user, Order order){
+        user.addOrder(order);
+        repo.save(user);
+    }
 
 
 
