@@ -26,15 +26,15 @@ public class User {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="Order_User")
-    private List<Order> sharedOrders = new ArrayList<>();
+    private List<Order> userOrders = new ArrayList<>();
 
 
     public void addOrder(Order order) {
-        sharedOrders.add(order);
+        userOrders.add(order);
     }
 
     public void removeOrder(Order order) {
-        sharedOrders.remove(order);
+        userOrders.remove(order);
     }
 
 }

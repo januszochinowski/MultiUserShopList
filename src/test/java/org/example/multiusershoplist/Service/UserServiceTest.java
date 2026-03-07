@@ -10,19 +10,18 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.naming.ldap.PagedResultsControl;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class MangeUserServiceTest {
+class UserServiceTest {
 
     private Order order;
     private User user;
 
     @Autowired
-    private MangeUserService service;
+    private UserService service;
 
     @Autowired
     private UserMangeRepo repoUser;

@@ -2,26 +2,28 @@ package org.example.multiusershoplist.Controller;
 
 import org.example.multiusershoplist.Model.User;
 import org.example.multiusershoplist.Service.JWTService;
-import org.example.multiusershoplist.Service.MangeUserService;
+import org.example.multiusershoplist.Service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * Login and create new account
+ */
 @RestController
 public class LoginAndRegisterController {
 
 
-    private MangeUserService service;
+    private UserService service;
     private final AuthenticationManager authenticationManager;
     private JWTService jwtService;
 
-    public LoginAndRegisterController(MangeUserService service, AuthenticationManager authenticationManager, JWTService jwtService) {
+    public LoginAndRegisterController(UserService service, AuthenticationManager authenticationManager, JWTService jwtService) {
         this.service = service;
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;

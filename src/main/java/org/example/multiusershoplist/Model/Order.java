@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -21,11 +22,14 @@ public class Order{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-
+    @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private  int howMany;
-    private Date dateOfMake;
+
+    @Column(nullable = false)
+    private LocalDate dateOfMake;
 
     @OneToOne
     @JoinColumn(name = "owner_id",  nullable = false)

@@ -2,6 +2,8 @@ package org.example.multiusershoplist.Repo;
 
 import org.example.multiusershoplist.Model.Order;
 import org.example.multiusershoplist.Model.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -37,6 +39,10 @@ public interface UserMangeRepo extends JpaRepository<User,String> {
     String getUserEmailByNick(String email);
 
     List<User> findByNickStartingWith(String nick);
+
+    @Query("SELECT u.userOrders  FROM User u WHERE u.nick = :nick  ")
+    Page<Order> findAllUserOrders(String nick, Pageable pageable);
+
 
 
 }

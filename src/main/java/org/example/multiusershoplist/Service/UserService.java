@@ -1,10 +1,9 @@
 package org.example.multiusershoplist.Service;
 
-import jakarta.persistence.EntityNotFoundException;
 import org.example.multiusershoplist.Model.Order;
 import org.example.multiusershoplist.Model.User;
 import org.example.multiusershoplist.Repo.UserMangeRepo;
-import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,12 +12,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class MangeUserService {
+public class UserService {
 
     private UserMangeRepo repo;
     private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
-    MangeUserService(UserMangeRepo repo) {
+    UserService(UserMangeRepo repo) {
         this.repo = repo;
     }
 
@@ -34,17 +33,27 @@ public class MangeUserService {
 
     /**
      * Get User with this nick
-     * @param nick <- finding user nick
+     * @param nick  finding user nick
      * @return Optional object with found user (if found)
      */
     public Optional<User>  getUser(String nick){
         return repo.findByNick(nick);
     }
 
+    /**
+     * Get Useer with this email address
+     * @param email  finding user email address
+     * @return  optional object of found User
+     */
     public Optional<User>  getUserByEmail(String email){
         return repo.findByEmail(email);
     }
 
+    /**
+     * Get All Users which nick start with
+     * @param nick  first letter/s in finding nick
+     * @return  all found Users
+     */
     public List<User> getUsersWithNickStart(String nick){
         return  repo.findByNickStartingWith(nick);
     }
@@ -73,7 +82,6 @@ public class MangeUserService {
     public void changeEmail(String nick, String newEmail){
         repo.updateEmail(nick, newEmail);
     }
-
 
 
 

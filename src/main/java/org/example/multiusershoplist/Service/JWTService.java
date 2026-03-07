@@ -17,6 +17,9 @@ import java.security.SignatureException;
 import java.util.*;
 import java.util.function.Function;
 
+/**
+ * Class for generate and verify JWT
+ */
 @Service
 public class JWTService {
 
@@ -68,6 +71,11 @@ public class JWTService {
 
     private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
+    }
+
+    public String extractUsrNameFromHeader(String header){
+        String token = header.substring("Bearer ".length());
+        return extractUserName(token);
     }
 
     public String extractUserName(String token) {
