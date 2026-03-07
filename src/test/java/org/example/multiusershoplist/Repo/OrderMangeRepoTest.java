@@ -40,6 +40,9 @@ class OrderMangeRepoTest {
         order.setDateOfMake(LocalDate.now());
         order.setSenderNick(user.getNick());
         repo.save(order);
+
+        user.addOrder(order);
+        userRepo.save(user);
     }
 
 

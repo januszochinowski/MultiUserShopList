@@ -84,6 +84,12 @@ public class UserService {
     }
 
 
+    @Transactional
+    public void update(User user){
+        repo.save(user);
+    }
+
+
     public void addOrder(User user, Order order){
         user.addOrder(order);
         repo.save(user);

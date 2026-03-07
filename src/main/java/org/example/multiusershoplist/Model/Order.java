@@ -4,12 +4,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -36,7 +34,7 @@ public class Order{
     @Column(nullable = false)
     private String senderNick;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, mappedBy ="userOrders")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy ="userOrders")
     private List<User> owners=new ArrayList<>();
 
 

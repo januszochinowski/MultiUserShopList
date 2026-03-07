@@ -51,7 +51,7 @@ public class UserController {
     }
 
     /**
-     * Get all Users which nick start with given letter/s
+     * Get all Users that nick start with given letter/s
      * @param nick start letter/s of the wanted Users
      * @return all found Users
      */

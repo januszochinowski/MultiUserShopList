@@ -44,7 +44,7 @@ class OrderServiceTest {
         user.setNick("Test1");
         user.setPassword("password");
         user.setEmail("ajgdj");
-        userRepo.save(user);
+        user.setNick(userRepo.save(user).getNick());
 
         order = new Order();
         order.setName("marchewka");
@@ -54,6 +54,7 @@ class OrderServiceTest {
 
 
         order.setId(repo.save(order).getId());
+
 
     }
 
@@ -66,14 +67,8 @@ class OrderServiceTest {
 
     @Test
     void addOrder() {
-       Order newOrder = new Order();
-       newOrder.setName("marchewka");
-       newOrder.setHowMany(1);
-       newOrder.setDateOfMake(LocalDate.now());
-       newOrder.setSenderNick(user.getNick());
-       repo.save(newOrder);
-       orderService.addOrder(newOrder,user.getNick());
-      assertEquals(newOrder,userRepo.findAllUserOrders(user.getNick(),PageRequest.of(1, 1)).getContent().get(0));
+        orderService.addOrder(order,user.getNick());
+      assertEquals(order.getId(),userRepo.findAllUserOrders(user.getNick(),PageRequest.of(0, 1)).getContent().get(0).getId());
     }
 
     @Test

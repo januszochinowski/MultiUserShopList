@@ -40,8 +40,6 @@ public class OrderService {
         order.setDateOfMake(LocalDate.now());
         repo.save(order);
         userService.addOrder(sender, order);
-
-
     }
 
     /**

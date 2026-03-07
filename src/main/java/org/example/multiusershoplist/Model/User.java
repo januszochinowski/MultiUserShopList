@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,8 +25,10 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name="order_user")
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(name= "order_user",
+    joinColumns = @JoinColumn(name = "user_id"),
+    inverseJoinColumns = @JoinColumn(name = "order_id"))
     private List<Order> userOrders = new ArrayList<>();
 
 
