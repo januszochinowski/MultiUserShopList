@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.util.List;
 
+/**
+ * Controller to manage Orders
+ */
 @RestController
 @RequestMapping("/order")
 public class OrderController {
@@ -51,25 +54,14 @@ public class OrderController {
      * @param header authorization header with JWT
      * @return ok if deleted
      */
-    @DeleteMapping("/delete")
+    @DeleteMapping("")
     public ResponseEntity<String> deleteOrder(@RequestParam long orderId,@RequestHeader(HttpHeaders.AUTHORIZATION) String header) {
         String nick =jwtService.extractUsrNameFromHeader(header);
         service.removeOrder(orderId,nick);
         return ResponseEntity.ok("Order deleted");
     }
 
-    /**
-     * Add Order to User
-     * @param order new Order to add
-     * @param header authorization header with JWT
-     * @return ok if Order added
-     */
-    @PostMapping("/add")
-    public ResponseEntity<String> addOrder(@RequestBody Order order, @RequestHeader(HttpHeaders.AUTHORIZATION) String header) {
-        String nick =jwtService.extractUsrNameFromHeader(header);
-        service.addOrder(order,nick);
-        return ResponseEntity.ok("Order added");
-    }
+
 
 
     /**
@@ -83,9 +75,17 @@ public class OrderController {
     public ResponseEntity<String> shareOrder(@RequestBody Order order, @RequestParam List<String> userNicks,  @RequestHeader(HttpHeaders.AUTHORIZATION) String header) {
         String nick =jwtService.extractUsrNameFromHeader(header);
         shareOrderService.shareOrder(order,userNicks);
-        return ResponseEntity.ok("Order added");
+        return ResponseEntity.ok("Order shared");
     }
 
+    /**
+     * Update part of Order (name or howMany)
+     * @param partName name of Order part to update
+     * @param orderId id of updated order
+     * @param newValue new value
+     * @param header authorization header with JWT
+     * @return ok if updated.  bad request if part name is wrong
+     */
     @PatchMapping("/update/{part}")
     public ResponseEntity<String> update(@PathVariable("part") String partName,
                                          @RequestParam long orderId,
@@ -110,6 +110,13 @@ public class OrderController {
     }
 
 
+    /**
+     * Get all User's Orders
+     * @param header authorization header with JWT
+     * @param maxSize maximum number of elements
+     * @param page number of pages
+     * @return list of User Orders and ok status
+     */
     @GetMapping()
     public ResponseEntity<List<Order>> getAllOrders(@RequestHeader(HttpHeaders.AUTHORIZATION) String header,
                                                     @RequestParam int maxSize,
