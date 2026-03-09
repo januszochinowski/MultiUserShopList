@@ -89,7 +89,7 @@ public class UserService {
         repo.save(user);
     }
 
-
+    @Transactional
     public void addOrder(User user, Order order){
         user.addOrder(order);
         repo.save(user);

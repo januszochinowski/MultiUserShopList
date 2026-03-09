@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Optional;
 
 /**
  * Mange order data
@@ -52,6 +53,7 @@ public class OrderService {
         Order order = sender.getUserOrders().stream().filter(o -> o.getId() == orderId).findFirst().orElseThrow( () -> new  IllegalArgumentException("You do not have an order with that id"));
         order.getOwners().forEach(owner -> owner.removeOrder(order));
         repo.delete(order);
+        userService.update(sender);
     }
 
     /**
@@ -72,6 +74,10 @@ public class OrderService {
     public void updateOrderHowMany(Order order, int newHowMany){
         order.setHowMany(newHowMany);
         repo.save(order);
+    }
+
+    public Optional<Order> getOrder(long orderId){
+        return repo.findById(orderId);
     }
 
 
