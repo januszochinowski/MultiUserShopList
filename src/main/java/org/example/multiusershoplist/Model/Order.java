@@ -38,6 +38,7 @@ public class Order{
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy ="userOrders")
     @ToString.Exclude
+    @JsonIgnore
     private List<User> owners=new ArrayList<>();
 
 
